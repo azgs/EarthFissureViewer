@@ -59,3 +59,20 @@ body { overflow: hidden; }
         background-size: contain;
     }
 }
+
+#map .leaflet-popup-content {
+    height: 100%;
+}
+
+#map .leaflet-popup-content .title {
+    text-align: center;
+}
+
+#map .leaflet-popup-content .content .preview {
+    width: 250px;
+    float: left;
+}
+
+#map .leaflet-popup-content .content .download {
+    margin-left: 260px;
+}

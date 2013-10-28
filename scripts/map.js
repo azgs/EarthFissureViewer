@@ -10,36 +10,74 @@ var app = {
 	  		'color': '#0000FF',
 	  		'weight': 2,
 	  		'fillOpacity': 0
-	  	}
-	  }).on('click', doClick)  	
+	  	},
+	  	onEachFeature: onEachFeature
+	  })  	
   }
-};
+}; 
 
-var template = '<div class=row>' +
-                	'<div class=col-md-12>A</div>' +
-            	'</div>' +
-            	'<div class=row>' +
-	                '<div class=col-md-8>B</div>' +
-	                '<div class=col-md-4>C' +
-	                '<div class=row>' +
-                    	'<div class=col-md-4>D</div>' +
-                    '</div>' +
-                '</div>' 
+function onEachFeature(feature, layer) {
+	var pdf = feature.properties.Pdf;
+	var label = feature.properties.Label;
 
-function doClick(e) {
-	//var template = $('#popup-template').html();
-	//$('.leaflet-popup-content').html(_.template(template));
-	L.popup()
-		.setLatLng(e.latlng)
-		.setContent(template)
-		.openOn(app.map);
+	console.log(pdf.length);
+
+	var template = function(title, preview, links) {
+		this.template = '<div class=title>' + title + ' Study Area</div>' +
+						'<div class=content>' +
+							'<div class=preview><img src=' + preview + '></div>' +
+							'<div class=download>' + links + '</div>' +
+						'</div>'
+		return this.template;
+	}
+
+	var preview = function() {
+		this.path;
+		_.each(pdf, function(item){
+			this.path = 'assets/' + item + '.png';
+		});
+		return this.path;
+	}
+
+	var download_path = function(item) {
+		base_uri = document.baseURI.toString();
+		whole_uri = base_uri.substring(0, base_uri.lastIndexOf("/") + 1);
+		return whole_uri + item + '.pdf'
+	}
+
+	var links = function() {
+		this.html;
+		var template = _.template('<li><a href= <%= path %>> <%= name %></a></li>');
+		if (pdf.length > 1) {
+			_.each(pdf, function(item) {
+				path = download_path(item);
+				this.html += template({path: path, name: item});
+			});
+		} else {
+			_.each(pdf, function(item) {
+				path = download_path(item);
+				this.html = template({path: path, name: item});
+			});
+		}
+		return this.html;
+	}
+
+	var popupTemplate = template(label, preview(), links());
+
+	var popup = L.popup({
+		'maxWidth': 500,
+		'minWidth': 250
+	}).setContent(popupTemplate);
+
+	layer.bindPopup(popup);
 }
 
 for (var key in app.layers) {
 	app.layers[key].addTo(app.map);
 }
 
-// Add click effect to the legend toggler
+L.geocoderControl().addTo(app.map);
+
 d3.select('#toggle-info').on('click', function () {
   var enabled = d3.select('#info').classed('hidden');
   d3.select('#info').classed('hidden', !enabled);
