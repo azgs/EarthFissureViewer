@@ -27,15 +27,15 @@ function onEachFeature(feature, layer) {
 				.value(),
 
 			links = _.map(pdf, function (item) {
-				var path = item + '.pdf';
-				return '<li><a href="' + path + '">' + item + '</a></li>';
+				var path = '/assets/' + item + '.pdf';
+				return '<div class="alert alert-info"><a href="' + path + '">' + item + '</a></div>';
 			}).join('');
 
 	var html = '<div class=title><h4>' + label + ' Study Area</h4></div>';
 		 html += '<div class=content>';
 		 html += '<div class=preview><img src=' + preview + '></div>';
-		 html += '<div class=links><h6>Downloadable Maps:</h6>';
-		 html += '<div class=download><ul>' + links + '</ul></div>';
+		 html += '<div class=links><h5>Downloadable Maps:</h5>';
+		 html += '<div class=download>' + links + '</div>';
 		 html += '<div id=zoom>';
 		 html += '<button type="button" onclick="doZoom(' + bbox + ')" class="btn btn-success">Zoom to this study area</button>';
 		 html += '</div></div></div>';

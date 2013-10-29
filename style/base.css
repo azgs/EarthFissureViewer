@@ -84,7 +84,9 @@ body { overflow: hidden; }
 #info-box #description {
     margin-left: 30px;
     width: 60%;
+    height: 200px;
     float: left;
+    overflow: auto;
 }
 
 #info-box #legend {
@@ -93,6 +95,16 @@ body { overflow: hidden; }
 }
 
 #info-box #legend table tr td {
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 15px;
+}
+
+.alert {
+    text-align: center;
+    padding: 2px;
+    margin-bottom: 5px;
+}
+
+#legend table {
+    width: 400px;
+    background-color: rgba(255,255,255,0.1);
 }
