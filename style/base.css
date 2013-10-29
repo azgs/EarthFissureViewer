@@ -80,3 +80,19 @@ body { overflow: hidden; }
 #map .leaflet-popup-content .content .links {
     margin-left: 260px;
 }
+
+#info-box #description {
+    margin-left: 30px;
+    width: 60%;
+    float: left;
+}
+
+#info-box #legend {
+    margin-left: 70%;
+    padding-top: 20px;
+}
+
+#info-box #legend table tr td {
+    padding-left: 5px;
+    padding-right: 5px;
+}

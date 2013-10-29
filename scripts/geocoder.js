@@ -124,6 +124,7 @@ var GeocoderControl = L.Control.extend({
 
         link.href = '#';
         link.innerHTML = '&nbsp;';
+        link.title = 'Search a street address';
 
         input.type = 'text';
         input.setAttribute('placeholder', 'Search');
