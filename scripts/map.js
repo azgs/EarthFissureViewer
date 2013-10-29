@@ -7,8 +7,8 @@ var app = {
 	  fissuresLayer: L.tileLayer('http://localhost:3000/{z}/{x}/{y}.png'),
 	  studyAreas: L.geoJson(studyareas, {
 	  	style: {
-	  		'color': '#0000FF',
-	  		'weight': 2,
+	  		'color': 'rgb(54,204,255)',
+	  		'weight': 4,
 	  		'fillOpacity': 0
 	  	},
 	  	onEachFeature: onEachFeature
@@ -20,13 +20,13 @@ function onEachFeature(feature, layer) {
 	var pdf = feature.properties.Pdf;
 	var label = feature.properties.Label;
 
-	console.log(pdf.length);
-
 	var template = function(title, preview, links) {
-		this.template = '<div class=title>' + title + ' Study Area</div>' +
+		this.template = '<div class=title><h4>' + title + ' Study Area</h4></div>' +
 						'<div class=content>' +
 							'<div class=preview><img src=' + preview + '></div>' +
-							'<div class=download>' + links + '</div>' +
+							'<div class=links><h6>Downloadable Maps:</h6>' + 
+								'<div class=download>' + links + '</div>' +
+							'</div>' +
 						'</div>'
 		return this.template;
 	}
@@ -47,18 +47,15 @@ function onEachFeature(feature, layer) {
 
 	var links = function() {
 		this.html;
-		var template = _.template('<li><a href= <%= path %>> <%= name %></a></li>');
-		if (pdf.length > 1) {
-			_.each(pdf, function(item) {
-				path = download_path(item);
+		var template = _.template('<ul><a href= <%= path %>> <%= name %></a></ul>');
+		_.each(pdf, function(item) {
+			path = download_path(item);
+			if (pdf.length > 1) {
 				this.html += template({path: path, name: item});
-			});
-		} else {
-			_.each(pdf, function(item) {
-				path = download_path(item);
+			} else {
 				this.html = template({path: path, name: item});
-			});
-		}
+			}
+		});
 		return this.html;
 	}
 
