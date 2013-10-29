@@ -1,5 +1,5 @@
 var app = {
-  map: L.map('map', {center: [32.5, -111.5], zoom: 8}),
+  map: L.map('map', {center: [32.3, -111], zoom: 8}),
   layers: {
 	  baseLayer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	    attribution: '<a href="https://www.mapbox.com/about/maps/">Terms & Feedback</a>'
@@ -20,12 +20,17 @@ function onEachFeature(feature, layer) {
 	var pdf = feature.properties.Pdf;
 	var label = feature.properties.Label;
 
+	//console.log(layer.getBounds());
+
 	var template = function(title, preview, links) {
 		this.template = '<div class=title><h4>' + title + ' Study Area</h4></div>' +
 						'<div class=content>' +
 							'<div class=preview><img src=' + preview + '></div>' +
 							'<div class=links><h6>Downloadable Maps:</h6>' + 
 								'<div class=download>' + links + '</div>' +
+								'<div id=zoom>' +
+									'<button type="button" onclick="doZoom(bbox)" class="btn btn-success">Zoom to this study area</button>' +
+								'</div>' +
 							'</div>' +
 						'</div>'
 		return this.template;
@@ -59,6 +64,8 @@ function onEachFeature(feature, layer) {
 		return this.html;
 	}
 
+	bbox = layer.getBounds();
+
 	var popupTemplate = template(label, preview(), links());
 
 	var popup = L.popup({
@@ -67,10 +74,15 @@ function onEachFeature(feature, layer) {
 	}).setContent(popupTemplate);
 
 	layer.bindPopup(popup);
+
 }
 
 for (var key in app.layers) {
 	app.layers[key].addTo(app.map);
+}
+
+var doZoom = function (bbox) {
+	app.map.fitBounds(bbox);
 }
 
 L.geocoderControl().addTo(app.map);
