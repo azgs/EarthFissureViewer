@@ -20,20 +20,19 @@ function onEachFeature(feature, layer) {
 	var pdf = feature.properties.Pdf;
 	var label = feature.properties.Label;
 
-	//console.log(layer.getBounds());
+	var bbox = layer.getBounds().toBBoxString();
 
-	var template = function(title, preview, links) {
-		this.template = '<div class=title><h4>' + title + ' Study Area</h4></div>' +
+	var template = function(title, preview, links, bbox) {
+		return '<div class=title><h4>' + title + ' Study Area</h4></div>' +
 						'<div class=content>' +
 							'<div class=preview><img src=' + preview + '></div>' +
 							'<div class=links><h6>Downloadable Maps:</h6>' + 
 								'<div class=download>' + links + '</div>' +
 								'<div id=zoom>' +
-									'<button type="button" onclick="doZoom(bbox)" class="btn btn-success">Zoom to this study area</button>' +
+									'<button type="button" onclick="doZoom(' + bbox + ')" class="btn btn-success">Zoom to this study area</button>' +
 								'</div>' +
 							'</div>' +
-						'</div>'
-		return this.template;
+						'</div>';
 	}
 
 	var preview = function() {
@@ -64,9 +63,7 @@ function onEachFeature(feature, layer) {
 		return this.html;
 	}
 
-	bbox = layer.getBounds();
-
-	var popupTemplate = template(label, preview(), links());
+	var popupTemplate = template(label, preview(), links(), bbox);
 
 	var popup = L.popup({
 		'maxWidth': 500,
@@ -81,8 +78,11 @@ for (var key in app.layers) {
 	app.layers[key].addTo(app.map);
 }
 
-var doZoom = function (bbox) {
-	app.map.fitBounds(bbox);
+var doZoom = function (bbox0, bbox1, bbox2, bbox3) {
+	var sw = new L.LatLng(bbox1, bbox0);
+	var ne = new L.LatLng(bbox3, bbox2);
+	var bounds = new L.LatLngBounds(sw, ne);
+	app.map.fitBounds(bounds);
 }
 
 L.geocoderControl().addTo(app.map);
