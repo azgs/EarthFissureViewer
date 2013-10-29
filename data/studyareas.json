@@ -1,4 +1,4 @@
-var studyareas = {
+{
   "type": "FeatureCollection",
   "features": [
     {
@@ -6,7 +6,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 3,
         "Label": "Luke",
-        "Pdf": ["luke"]
+        "Pdf": "luke"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -51,7 +51,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 4,
         "Label": "Picacho",
-        "Pdf": ["picacho-1","picacho-2","picacho-3"]
+        "Pdf": "picacho-1,picacho-2,picacho-3"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -104,7 +104,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 6,
         "Label": "Harquahala",
-        "Pdf": ["harquahala"]
+        "Pdf": "harquahala"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -153,7 +153,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 15,
         "Label": "Greene Wash",
-        "Pdf": ["greene-wash"]
+        "Pdf": "greene-wash"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -210,7 +210,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 34,
         "Label": "White Horse Pass",
-        "Pdf": ["white-horse-pass"]
+        "Pdf": "white-horse-pass"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -259,7 +259,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 35,
         "Label": "Santa Rosa Wash",
-        "Pdf": ["santa-rosa-wash"]
+        "Pdf": "santa-rosa-wash"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -300,7 +300,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 36,
         "Label": "Toltec Buttes",
-        "Pdf": ["toltec-buttes"]
+        "Pdf": "toltec-buttes"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -365,7 +365,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 38,
         "Label": "Scottsdale",
-        "Pdf": ["scottsdale"]
+        "Pdf": "scottsdale"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -438,7 +438,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 39,
         "Label": "Apache Junction",
-        "Pdf": ["apache-junction"]
+        "Pdf": "apache-junction"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -511,7 +511,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 40,
         "Label": "Chandler Heights",
-        "Pdf": ["chandler-heights"]
+        "Pdf": "chandler-heights"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -564,7 +564,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 42,
         "Label": "Pete's Corner",
-        "Pdf": ["petes-corner"]
+        "Pdf": "petes-corner"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -601,7 +601,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 43,
         "Label": "Wintersburg",
-        "Pdf": ["wintersburg"]
+        "Pdf": "wintersburg"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -638,7 +638,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 45,
         "Label": "Heaton",
-        "Pdf": ["heaton"]
+        "Pdf": "heaton"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -675,7 +675,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 46,
         "Label": "Tator Hills",
-        "Pdf": ["tator-hills"]
+        "Pdf": "tator-hills"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -728,7 +728,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 48,
         "Label": "Signal Peak",
-        "Pdf": ["signal-peak"]
+        "Pdf": "signal-peak"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -765,7 +765,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 49,
         "Label": "Friendly Corner",
-        "Pdf": ["friendly-corner"]
+        "Pdf": "friendly-corner"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -802,7 +802,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 50,
         "Label": "Sacaton Butte",
-        "Pdf": ["sacaton-butte"]
+        "Pdf": "sacaton-butte"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -855,7 +855,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 52,
         "Label": "Three Sisters Buttes",
-        "Pdf": ["three-sisters-buttes"]
+        "Pdf": "three-sisters-buttes"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -900,7 +900,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 54,
         "Label": "Dragoon Road",
-        "Pdf": ["dragoon-road"]
+        "Pdf": "dragoon-road"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -949,7 +949,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 1,
         "Label": "Mesa",
-        "Pdf": ["mesa"]
+        "Pdf": "mesa"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -986,7 +986,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 465,
         "Label": "Croton Springs",
-        "Pdf": ["croton-springs"]
+        "Pdf": "croton-springs"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1107,7 +1107,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 466,
         "Label": "Elfrida",
-        "Pdf": ["elfrida"]
+        "Pdf": "elfrida"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -1144,7 +1144,7 @@ var studyareas = {
       "properties": {
         "OBJECTID": 1265,
         "Label": "Bowie San Simon",
-        "Pdf": ["bowie-san-simon"]
+        "Pdf": "bowie-san-simon"
       },
       "geometry": {
         "type": "MultiPolygon",

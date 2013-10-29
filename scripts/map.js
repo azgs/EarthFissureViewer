@@ -4,8 +4,8 @@ var app = {
 	  baseLayer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	    attribution: '<a href="https://www.mapbox.com/about/maps/">Terms & Feedback</a>'
 	  }),
-	  fissuresLayer: L.tileLayer('http://localhost:3000/{z}/{x}/{y}.png'),
-	  studyAreas: L.geoJson(studyareas, {
+	  fissuresLayer: L.tileLayer('http://{s}.tiles.usgin.org/fissures/{z}/{x}/{y}.png'),
+	  studyAreas: L.geoJson(null, {
 	  	style: {
 	  		'color': 'rgb(54,204,255)',
 	  		'weight': 4,
@@ -17,75 +17,51 @@ var app = {
 }; 
 
 function onEachFeature(feature, layer) {
-	var pdf = feature.properties.Pdf;
-	var label = feature.properties.Label;
+	var pdf = feature.properties.Pdf.split(','),
+	    label = feature.properties.Label,
+			bbox = layer.getBounds().toBBoxString(),
 
-	var bbox = layer.getBounds().toBBoxString();
+			preview = _.chain(pdf)
+				.map(function (item) { return 'assets/' + item + '.png'; })
+				.last()
+				.value(),
 
-	var template = function(title, preview, links, bbox) {
-		return '<div class=title><h4>' + title + ' Study Area</h4></div>' +
-						'<div class=content>' +
-							'<div class=preview><img src=' + preview + '></div>' +
-							'<div class=links><h6>Downloadable Maps:</h6>' + 
-								'<div class=download>' + links + '</div>' +
-								'<div id=zoom>' +
-									'<button type="button" onclick="doZoom(' + bbox + ')" class="btn btn-success">Zoom to this study area</button>' +
-								'</div>' +
-							'</div>' +
-						'</div>';
-	}
+			links = _.map(pdf, function (item) {
+				var path = item + '.pdf';
+				return '<li><a href="' + path + '">' + item + '</a></li>';
+			}).join('');
 
-	var preview = function() {
-		this.path;
-		_.each(pdf, function(item){
-			this.path = 'assets/' + item + '.png';
-		});
-		return this.path;
-	}
-
-	var download_path = function(item) {
-		base_uri = document.baseURI.toString();
-		whole_uri = base_uri.substring(0, base_uri.lastIndexOf("/") + 1);
-		return whole_uri + item + '.pdf'
-	}
-
-	var links = function() {
-		this.html;
-		var template = _.template('<ul><a href= <%= path %>> <%= name %></a></ul>');
-		_.each(pdf, function(item) {
-			path = download_path(item);
-			if (pdf.length > 1) {
-				this.html += template({path: path, name: item});
-			} else {
-				this.html = template({path: path, name: item});
-			}
-		});
-		return this.html;
-	}
-
-	var popupTemplate = template(label, preview(), links(), bbox);
-
+	var html = '<div class=title><h4>' + label + ' Study Area</h4></div>';
+		 html += '<div class=content>';
+		 html += '<div class=preview><img src=' + preview + '></div>';
+		 html += '<div class=links><h6>Downloadable Maps:</h6>';
+		 html += '<div class=download><ul>' + links + '</ul></div>';
+		 html += '<div id=zoom>';
+		 html += '<button type="button" onclick="doZoom(' + bbox + ')" class="btn btn-success">Zoom to this study area</button>';
+		 html += '</div></div></div>';
+	
 	var popup = L.popup({
 		'maxWidth': 500,
 		'minWidth': 250
-	}).setContent(popupTemplate);
+	}).setContent(html);
 
 	layer.bindPopup(popup);
-
-}
-
-for (var key in app.layers) {
-	app.layers[key].addTo(app.map);
 }
 
 var doZoom = function (bbox0, bbox1, bbox2, bbox3) {
-	var sw = new L.LatLng(bbox1, bbox0);
-	var ne = new L.LatLng(bbox3, bbox2);
-	var bounds = new L.LatLngBounds(sw, ne);
+	var bounds = L.latLngBounds([[bbox1, bbox0], [bbox3, bbox2]]);
 	app.map.fitBounds(bounds);
 }
 
+app.layers.baseLayer.addTo(app.map);
+app.layers.fissuresLayer.addTo(app.map);
+app.layers.studyAreas.addTo(app.map);
 L.geocoderControl().addTo(app.map);
+
+d3.json('data/studyareas.json', function (err, data) {
+	if (err) return console.log(err);
+	app.layers.studyAreas.addData(data);
+});
 
 d3.select('#toggle-info').on('click', function () {
   var enabled = d3.select('#info').classed('hidden');
