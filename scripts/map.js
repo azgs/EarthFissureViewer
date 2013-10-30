@@ -1,7 +1,7 @@
 var app = {
   map: L.map('map', {center: [32.3, -111], zoom: 8}),
   layers: {
-	  baseLayer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	  baseLayer: L.tileLayer('http://a.tiles.mapbox.com/v3/azgs.map-qc1pcpws/{z}/{x}/{y}.png', {
 	    attribution: '<a href="https://www.mapbox.com/about/maps/">Terms & Feedback</a>'
 	  }),
 	  fissuresLayer: L.tileLayer('http://{s}.tiles.usgin.org/fissures/{z}/{x}/{y}.png'),
