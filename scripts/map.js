@@ -12,40 +12,58 @@ var app = {
 	  		'fillOpacity': 0
 	  	},
 	  	onEachFeature: onEachFeature
-	  })  	
+	  })
+  },
+  imgHeights: {
+  	'luke': 188,
+	  'picacho-3': 204,
+	  'harquahala': 210,
+	  'greene-wash': 240,
+	  'white-horse-pass': 247,
+	  'santa-rosa-wash': 119,
+	  'toltec-buttes': 206,
+	  'scottsdale': 143,
+	  'apache-junction': 238,
+	  'chandler-heights': 139,
+	  'petes-corner': 211,
+	  'wintersburg': 231,
+	  'heaton': 116,
+	  'tator-hills': 108,
+	  'signal-peak': 217,
+	  'friendly-corner': 217,
+	  'sacaton-butte': 245,
+	  'three-sisters-butte': 225,
+	  'dragoon-road': 234,
+	  'mesa': 135,
+	  'croton-springs': 226,
+	  'elfrida': 226,
+	  'bowie-san-simon': 210
   }
-}; 
+};
 
 function onEachFeature(feature, layer) {
 	var pdf = feature.properties.Pdf.split(','),
 	    label = feature.properties.Label,
 			bbox = layer.getBounds().toBBoxString(),
 
-			preview = _.chain(pdf)
-				.map(function (item) { return 'assets/' + item + '.png'; })
-				.last()
-				.value(),
+			lastOne = pdf[pdf.length - 1],
+			preview = 'assets/' + lastOne + '.png',
 
 			links = _.map(pdf, function (item) {
-				var path = '/assets/' + item + '.pdf';
-				return '<div class="alert alert-info"><a href="' + path + '">' + item + '</a></div>';
+				var path = item + '.pdf';
+				return '<li><a class="alert alert-info" href="' + path + '">' + label + '</a></li>';
 			}).join('');
 
-	var html = '<div class=title><h4>' + label + ' Study Area</h4></div>';
-		 html += '<div class=content>';
-		 html += '<div class=preview><img src=' + preview + '></div>';
-		 html += '<div class=links><h5>Downloadable Maps:</h5>';
-		 html += '<div class=download>' + links + '</div>';
-		 html += '<div id=zoom>';
+	var html = '<div class="title"><h4>' + label + ' Study Area</h4></div>';
+		 html += '<table><tr>';
+		 html += '<td style="width:250px;height:' + app.imgHeights[lastOne] + 'px;"><img src="' + preview + '" /></td>';
+		 html += '<td style="padding-left:10px;">';
+		 html += '<h6>Downloadable Maps:</h6>';
+		 html += '<ul>' + links + '</ul>'
 		 html += '<button type="button" onclick="doZoom(' + bbox + ')" class="btn btn-success">Zoom to this study area</button>';
-		 html += '</div></div></div>';
-	
-	var popup = L.popup({
-		'maxWidth': 500,
-		'minWidth': 250
-	}).setContent(html);
+		 html += '</td></tr></table>';
 
-	layer.bindPopup(popup);
+	layer.bindPopup(html, { minWidth: 430 });
 }
 
 var doZoom = function (bbox0, bbox1, bbox2, bbox3) {
