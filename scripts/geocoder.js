@@ -32,6 +32,8 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+var geo = {};
+
 // This one is for OSM nominatim. bboxes kinda suck
 var geocoder = {
     query: function (searchString, callback) {
@@ -47,10 +49,41 @@ var geocoder = {
                     res.lbounds = new L.LatLngBounds([[res.bounds[0], res.bounds[2]], [res.bounds[1], res.bounds[3]]]);
                 }
                 callback(null, res);
-            } else callback(err || true);
+            }
         });
     }
 };
+
+// One for Bing
+var bingGeocoder = {
+    query: function (searchString, callback) {
+        geo.callback = function (json) {
+            d3.select('#geocoder').remove();
+
+            if (json && json.resourceSets && json.resourceSets.length) {
+                var res = {
+                    results: json.resourceSets[0].resources.map(function (resource) {
+                        return {
+                            display_name: resource.name,
+                            boundingbox: [
+                                resource.bbox[0], resource.bbox[2],
+                                resource.bbox[1], resource.bbox[3]
+                            ]
+                        }
+                    }),
+                    latlng: json.resourceSets[0].resources[0].point
+                };
+                callback(null, res);
+            } else callback(err || true);
+        };
+
+        var url = 'http://dev.virtualearth.net/REST/v1/Locations/' + searchString +'?jsonp=geo.callback&key=AvRe9bcvCMLvazRf2jV1W6FaNT40ABwWhH6gRYKxt72tgnoYwHV1BnWzZxbm7QJ2';
+        d3.select('body')
+          .append('script')
+          .attr('id', 'geocoder')
+          .attr('src', url);
+    }
+}
 
 /* Don't try Google. This is illegal
 var googGeocoder = {
@@ -88,7 +121,12 @@ var GeocoderControl = L.Control.extend({
 
     initialize: function(options) {
         L.Util.setOptions(this, options);
-        this.geocoder = geocoder;
+        this.geocoder = bingGeocoder;
+        this.layer = L.geoJson(null, {
+            onEachFeature: function (f, l) {
+                l.bindPopup('<h4>' + f.properties.name + '</h4>');
+            }
+        });
     },
 
     _toggle: function(e) {
@@ -115,6 +153,8 @@ var GeocoderControl = L.Control.extend({
 
     onAdd: function(map) {
 
+        this.layer.addTo(map);
+
         var container = L.DomUtil.create('div', 'leaflet-control-mapbox-geocoder leaflet-bar leaflet-control'),
             link = L.DomUtil.create('a', 'leaflet-control-mapbox-geocoder-toggle mapbox-icon mapbox-icon-geocoder', container),
             results = L.DomUtil.create('div', 'leaflet-control-mapbox-geocoder-results', container),
@@ -124,7 +164,6 @@ var GeocoderControl = L.Control.extend({
 
         link.href = '#';
         link.innerHTML = '&nbsp;';
-        link.title = 'Search a street address';
 
         input.type = 'text';
         input.setAttribute('placeholder', 'Search');
@@ -151,6 +190,18 @@ var GeocoderControl = L.Control.extend({
         L.DomEvent.preventDefault(e);
         L.DomUtil.addClass(this._container, 'searching');
 
+        var addPoint = L.bind(function (name, latlng) {
+            this.layer.clearLayers()
+            this.layer.addData({
+                type: "Feature", 
+                properties: {name: name}, 
+                geometry: {type: "Point", coordinates: [latlng.coordinates[1],latlng.coordinates[0]]}
+            });
+            for (k in this.layer._layers) {
+                this.layer._layers[k].openPopup();
+            }
+        }, this);
+
         var map = this._map;
         var onload = L.bind(function(err, resp) {
             L.DomUtil.removeClass(this._container, 'searching');
@@ -175,7 +226,7 @@ var GeocoderControl = L.Control.extend({
                             L.DomEvent.addListener(r, 'click', function(e) {
                                 var _ = result.boundingbox;
                                 map.fitBounds(L.latLngBounds([[_[0], _[2]], [_[1], _[3]]]));
-                                //map.panTo(L.latLng(resp.latlng));
+                                addPoint(result.display_name, resp.latlng);
                                 L.DomEvent.stop(e);
                             });
                         })(resp.results[i]);
