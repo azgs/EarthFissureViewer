@@ -1,0 +1,9 @@
+{
+  "vars": {},
+  "css": [
+    "type.less",
+    "buttons.less",
+    "alerts.less"
+  ],
+  "js": []
+}

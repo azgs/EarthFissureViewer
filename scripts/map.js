@@ -1,7 +1,7 @@
 var app = {
   map: L.map('map', {center: [32.3, -111], zoom: 8}),
   layers: {
-	  baseLayer: L.tileLayer('http://a.tiles.mapbox.com/v3/azgs.map-qc1pcpws/{z}/{x}/{y}.png', {
+	  baseLayer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 	    attribution: '<a href="https://www.mapbox.com/about/maps/">Terms & Feedback</a>'
 	  }),
 	  fissuresLayer: L.tileLayer('http://{s}.tiles.usgin.org/fissures/{z}/{x}/{y}.png'),
@@ -50,16 +50,16 @@ function onEachFeature(feature, layer) {
 			preview = 'assets/' + lastOne + '.png',
 
 			links = _.map(pdf, function (item) {
-				var path = item + '.pdf';
-				return '<li><a class="alert alert-info" href="' + path + '">' + label + '</a></li>';
+				var path = 'assets/' + item + '.pdf';
+				return '<div class="alert alert-info"><a href="' + path + '">' + item + '</a></div>';
 			}).join('');
 
 	var html = '<div class="title"><h4>' + label + ' Study Area</h4></div>';
 		 html += '<table><tr>';
 		 html += '<td style="width:250px;height:' + app.imgHeights[lastOne] + 'px;"><img src="' + preview + '" /></td>';
 		 html += '<td style="padding-left:10px;">';
-		 html += '<h6>Downloadable Maps:</h6>';
-		 html += '<ul>' + links + '</ul>'
+		 html += '<h5>Downloadable Maps:</h5>';
+		 html += '<div class=download>' + links + '</div>';
 		 html += '<button type="button" onclick="doZoom(' + bbox + ')" class="btn btn-success">Zoom to this study area</button>';
 		 html += '</td></tr></table>';
 
@@ -76,13 +76,13 @@ app.layers.fissuresLayer.addTo(app.map);
 app.layers.studyAreas.addTo(app.map);
 L.geocoderControl().addTo(app.map);
 
-d3.json('data/studyareas.json', function (err, data) {
+d3.json('data/earth_fissure_study_areas.json', function (err, data) {
 	if (err) return console.log(err);
 	app.layers.studyAreas.addData(data);
 });
 
+// Add click effect to the legend toggler
 d3.select('#toggle-info').on('click', function () {
   var enabled = d3.select('#info').classed('hidden');
   d3.select('#info').classed('hidden', !enabled);
 });
-
