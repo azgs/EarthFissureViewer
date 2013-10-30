@@ -113,8 +113,8 @@ a.mapbox-icon-twitter {
 }
 
 .leaflet-control-mapbox-geocoder-toggle {
-    border-radius:2px;
-    -webkit-border-radius:2px;
+    border-radius:4px;
+    -webkit-border-radius:4px;
 }
 
 .leaflet-control-mapbox-geocoder.active,
