@@ -5,18 +5,27 @@ body { overflow: hidden; }
 /* Position the info div */
 #info {
     position: relative;
-    height: 200px;
-    bottom: 200px;
-    background-color: black;
-    background-color: rgba(0,0,0,0.8);
-    color: white;
+    height: 300px;
+    bottom: 300px;
+    background-color: #d3d3d3;
+    background-color: rgba(230,230,230,0.9);
     border-top: 1px solid white;
     padding: 0 10px;
     transition: bottom 0.5s;
+    color: #555;
 }
 
 #info.hidden {
     bottom: 0px;
+}
+
+#info-box {
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    overflow: auto;
 }
 
 /* Position the toggle button */
@@ -32,7 +41,7 @@ body { overflow: hidden; }
     height: 24px;
     position: absolute;
     left: 10px;
-    bottom: 200px;
+    bottom: 300px;
     cursor: pointer;
 }
 
@@ -57,6 +66,9 @@ body { overflow: hidden; }
     #logo {
         background: url('img/azgs-logo-ret.png');
         background-size: contain;
+    }
+    #info {
+        background-color: #d3d3d3;
     }
 }
 
@@ -91,30 +103,8 @@ body { overflow: hidden; }
     vertical-align: top;
 }
 
-#info-box #description {
-    margin-left: 30px;
-    width: 60%;
-    height: 200px;
-    float: left;
-    overflow: auto;
-}
-
-#info-box #legend {
-    margin-left: 70%;
-    padding-top: 20px;
-}
-
-#info-box #legend table tr td {
-    padding-left: 15px;
-}
-
 .alert {
     text-align: center;
     padding: 2px;
     margin-bottom: 5px;
-}
-
-#legend table {
-    width: 400px;
-    background-color: rgba(255,255,255,0.1);
 }
