@@ -54,42 +54,24 @@ function onEachFeature(feature, layer) {
 				var path = 'assets/' + item + '.pdf';
 				return '<div class="alert alert-info"><a href="' + path + '">' + item + '</a></div>';
 			}).join('');
-/*
-		var img = new Image();
-		img.onerror = function (evt){
-			return '<div class="alert alert-danger">Not Available</div>';
-		}
-		img.src = preview;
-*/
 
-		var img = new Image();
-
-		img.onerror = function() {
-			return '<div class="alert alert-danger">Not Available</div>';
-		},
-		img.onload = function() {
-			return links
-		}
-
-		img.src = preview;
-
-		theseLinks = function () {
-			if (img.onload()) {
-				return img.onload();
-			} else if (img.onerror()) {
-				return img.onerror();
+			urlExists = function(url) {
+				var http = new XMLHttpRequest();
+				http.open('HEAD', url, false);
+				http.send();
+				if (http.status === 200) {
+					return links;
+				} else {
+					return '<div class="alert alert-danger">Not Available</div>';
+				}
 			}
-
-		}
-
-		theseLinks();
 
 	var html = '<div class="title"><h4>' + label + ' Study Area</h4></div>';
 		html += '<table><tr>';
 		html += '<td style="width:250px;height:' + app.imgHeights[lastOne] + 'px;"><img src="' + preview + '" onerror=this.style.display="none"; /></td>';
 		html += '<td style="padding-left:10px;">';
 		html += '<h5>Downloadable Maps:</h5>';
-		html += '<div class=download>' + theseLinks() + '</div>';
+		html += '<div class=download>' + urlExists(preview) + '</div>';
 		html += '<button type="button" onclick="doZoom(' + bbox + ')" class="btn btn-success">Zoom to this study area</button>';
 		html += '</td></tr></table>';
 
