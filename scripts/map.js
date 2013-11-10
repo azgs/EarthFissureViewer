@@ -1,7 +1,7 @@
 var app = {
   map: L.map('map', {center: [32.3, -111], zoom: 8, minZoom: 8, maxZoom:14}),
   layers: {
-	  baseLayer: L.tileLayer('http://a.tiles.mapbox.com/v3/azgs.map-qc1pcpws/{z}/{x}/{y}.png', { //'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	  baseLayer: L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { // 'http://a.tiles.mapbox.com/v3/azgs.map-qc1pcpws/{z}/{x}/{y}.png', {
 	    attribution: '<a href="https://www.mapbox.com/about/maps/">Terms & Feedback</a>',
 	    detectRetina: true
 	  }),
@@ -13,6 +13,9 @@ var app = {
 	  		'fillOpacity': 0
 	  	},
 	  	onEachFeature: onEachFeature
+	  }),
+	  photoAreas: L.geoJson(null, {
+	  	onEachFeature: setPhotoIcon
 	  })
   },
   imgHeights: {
@@ -78,6 +81,19 @@ function onEachFeature(feature, layer) {
 	layer.bindPopup(html, { minWidth: 430 });
 }
 
+
+
+function setPhotoIcon(feature, layer) {
+	var center = layer.getBounds().getCenter(),
+		label = feature.properties.Name,
+		icon = L.divIcon({className: 'glyphicon glyphicon-camera'}),
+		photo = L.marker(center, {icon: icon}).addTo(app.map);
+
+	var html = '<div class="title"><h4>' + label + ' Field Photography</h4></div>';
+
+	photo.bindPopup(html, { minWidth: 430 });
+}
+
 var doZoom = function (bbox0, bbox1, bbox2, bbox3) {
 	var bounds = L.latLngBounds([[bbox1, bbox0], [bbox3, bbox2]]);
 	app.map.fitBounds(bounds);
@@ -92,6 +108,11 @@ d3.json('data/earth_fissure_study_areas.json', function (err, data) {
 	if (err) return console.log(err);
 	app.layers.studyAreas.addData(data);
 });
+
+d3.json('data/earth_fissure_photo_areas.json', function (err, data) {
+	if (err) return console.log(err);
+	app.layers.photoAreas.addData(data);
+})
 
 // Add click effect to the legend toggler
 d3.select('#toggle-info').on('click', function () {
