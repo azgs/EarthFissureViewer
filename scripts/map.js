@@ -15,7 +15,7 @@ var app = {
 	  	onEachFeature: onEachFeature
 	  }),
 	  photoAreas: L.geoJson(null, {
-	  	onEachFeature: setPhotoIcon
+	  	onEachFeature: photographize
 	  })
   },
   imgHeights: {
@@ -81,17 +81,29 @@ function onEachFeature(feature, layer) {
 	layer.bindPopup(html, { minWidth: 430 });
 }
 
-
-
-function setPhotoIcon(feature, layer) {
+function photographize(feature, layer) {
 	var center = layer.getBounds().getCenter(),
 		label = feature.properties.Name,
+		jpg = feature.properties.PhotoIDs.split(','),
 		icon = L.divIcon({className: 'glyphicon glyphicon-camera'}),
 		photo = L.marker(center, {icon: icon}).addTo(app.map);
 
-	var html = '<div class="title"><h4>' + label + ' Field Photography</h4></div>';
+	var links = _.map(jpg, function (photo) {
+		var path = 'assets/resized_field_photos/' + photo + '.jpg';
+		return '<div class="item"><img src=' + path + '/></div>';
+	}).join('');
 
-	photo.bindPopup(html, { minWidth: 430 });
+	var html = '<div class="title"><h4>' + label + ' Field Photography</h4></div>';
+		html += '<div id="photo-slide-show" class="carousel slide" data-ride="carousel">';
+		html += '<div class="carousel-inner" style="height:400px;">' + links+ '</div>';
+		html += '<a class="left carousel-control" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>';
+		html += '<a class="right carousel-control" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>';
+		html += '</div>';
+		//html += '<div class="image">' + links + '</div>';
+
+	photo.bindPopup(html, { minWidth: 300 });
+
+	$('.item').first().addClass('active');
 }
 
 var doZoom = function (bbox0, bbox1, bbox2, bbox3) {

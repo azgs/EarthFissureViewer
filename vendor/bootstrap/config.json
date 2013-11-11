@@ -5,20 +5,13 @@
     "grid.less",
     "tables.less",
     "buttons.less",
-    "alerts.less"
+    "glyphicons.less",
+    "alerts.less",
+    "modals.less",
+    "carousel.less"
   ],
   "js": [
-    "alert.js",
-    "button.js",
     "carousel.js",
-    "dropdown.js",
-    "modal.js",
-    "tooltip.js",
-    "popover.js",
-    "tab.js",
-    "affix.js",
-    "collapse.js",
-    "scrollspy.js",
-    "transition.js"
+    "modal.js"
   ]
 }
