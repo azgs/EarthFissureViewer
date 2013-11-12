@@ -88,20 +88,33 @@ function photographize(feature, layer) {
 		icon = L.divIcon({className: 'glyphicon glyphicon-camera'}),
 		photo = L.marker(center, {icon: icon}).addTo(app.map);
 
-	var links = _.map(jpg, function (photo) {
+	var indicators = _.map(jpg, function (photo, i) {
+		if (i === 0) {
+			return '<li data-target="#photo-slide-show" data-slide-to=' + i + ' class="active"></li>';
+		} else {
+			return '<li data-target="#photo-slide-show" data-slide-to=' + i + '></li>';
+		}
+	}).join('');
+
+	var links = _.map(jpg, function (photo, i) {
 		var path = 'assets/resized_field_photos/' + photo + '.jpg';
-		return '<div class="item"><img src=' + path + '/></div>';
+		if (i === 0) {
+			return '<div class="item active" style="display:block;margin-left:auto;margin-right:auto;"><img src=' + path + '/></div>';
+		} else {
+			return '<div class="item" style="display:block;margin-left:auto;margin-right:auto;"><img src=' + path + '/></div>';
+		}
 	}).join('');
 
 	var html = '<div class="title"><h4>' + label + ' Field Photography</h4></div>';
 		html += '<div id="photo-slide-show" class="carousel slide" data-ride="carousel">';
+		html += '<ol class="carousel-indicators">' + indicators + '</ol>';
 		html += '<div class="carousel-inner" style="height:400px;">' + links+ '</div>';
+		html += '<div class="custom-color">';
 		html += '<a class="left carousel-control" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>';
 		html += '<a class="right carousel-control" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>';
-		html += '</div>';
-		//html += '<div class="image">' + links + '</div>';
+		html += '</div></div>';
 
-	photo.bindPopup(html, { minWidth: 300 });
+	photo.bindPopup(html, { minWidth: 400 });
 
 	$('.item').first().addClass('active');
 }

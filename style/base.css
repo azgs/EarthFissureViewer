@@ -112,3 +112,9 @@ body { overflow: hidden; }
 .glyphicon {
     position: fixed;
 }
+
+.custom-color .carousel-control {
+    background-image: none;
+    background-image: none;
+}
+
