@@ -14,9 +14,11 @@ var app = {
 	  	},
 	  	onEachFeature: onEachFeature
 	  }),
+/*
 	  photoAreas: L.geoJson(null, {
 	  	onEachFeature: photographize
 	  })
+*/
   },
   imgHeights: {
   	'luke': 188,
@@ -80,7 +82,7 @@ function onEachFeature(feature, layer) {
 
 	layer.bindPopup(html, { minWidth: 430 });
 }
-
+/*
 function photographize(feature, layer) {
 	var center = layer.getBounds().getCenter(),
 		label = feature.properties.Name,
@@ -118,7 +120,7 @@ function photographize(feature, layer) {
 
 	$('.item').first().addClass('active');
 }
-
+*/
 var doZoom = function (bbox0, bbox1, bbox2, bbox3) {
 	var bounds = L.latLngBounds([[bbox1, bbox0], [bbox3, bbox2]]);
 	app.map.fitBounds(bounds);
