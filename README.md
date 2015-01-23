@@ -12,7 +12,8 @@ After cloning the repository, move into the folder and then
 
     python -m SimpleHTTPServer
 
-The site will be visible at http://localhost:8000
+The site will be visible at  http://localhost:8000
+
 ==================
 ### Updates to Fissure feature
 
