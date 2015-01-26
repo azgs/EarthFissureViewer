@@ -17,9 +17,9 @@ The site will be visible at  http://localhost:8000
 ==================
 ### Updates to Fissure feature
 
-Project the updated shape-file to WGS 84
-Convert to json using tool in Arc
-Then convert the json feature to geojson at http://ogre.adc4gis.com/
-Copy converted code to note pad and save as .json
-Add file back to data folder
+-Project the updated shape-file to WGS 84
+-Convert to json using tool in ArcTools
+-Then convert the json feature to geojson at http://ogre.adc4gis.com/
+-Copy converted code to note pad and save as .json
+-Add file back to data folder
  
