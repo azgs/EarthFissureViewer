@@ -1,9 +1,10 @@
-EarthFissureViewer
+EarthFissureViewer(NOT BEING USED)
 ==================
 Mapped earth fissures in the state of Arizona. 
 
-Preview here: 
-http://azgs.github.io/EarthFissureViewer/
+Fissures are now displayed and updated on the [Hazards Viewer](http://data.azgs.az.gov/hazard-viewer/) 
+
+[get the code](https://github.com/azgs/hazards-viewer)
 
 ### Development mode
 
@@ -52,3 +53,6 @@ Starting with updated shapefiles exported from the ArcGIS Fissures project:
 *Don't forget to add the new pdfs and pngs to the assests folder.*
 
 See AZGS/development for updating the live server.
+
+Preview here: 
+http://azgs.github.io/EarthFissureViewer/
